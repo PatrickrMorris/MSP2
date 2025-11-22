@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MSP – HSK1–2 Mandarin Practice</title>
+  <title>MSP – Mandarin Practice (HSK + Retail/Pharmacy)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
@@ -184,15 +184,24 @@
     <section class="card">
       <div class="header">
         <div class="title-block">
-          <h1>MSP · HSK1–2</h1>
-          <p>Smart random · No repeats until you see them all.</p>
+          <h1>MSP · Mandarin</h1>
+          <p>Smart random · HSK1–2 + Everyday + Retail/Pharmacy.</p>
         </div>
         <div class="pill">Drill mode</div>
       </div>
 
       <div class="mode-row">
         <button class="mode-btn active" data-mode="all">
-          <span class="icon">🎲</span><span>All (HSK1–2)</span>
+          <span class="icon">🎲</span><span>All</span>
+        </button>
+        <button class="mode-btn" data-mode="everyday">
+          <span class="icon">🌤️</span><span>Everyday</span>
+        </button>
+        <button class="mode-btn" data-mode="retail">
+          <span class="icon">🛒</span><span>Retail</span>
+        </button>
+        <button class="mode-btn" data-mode="pharmacy">
+          <span class="icon">💊</span><span>Pharmacy</span>
         </button>
         <button class="mode-btn" data-mode="hsk1">
           <span class="icon">①</span><span>HSK 1</span>
@@ -204,7 +213,7 @@
 
       <div class="phrase-card" id="phraseCard">
         <div class="phrase-top-row">
-          <span class="tag" id="categoryTag">HSK · Warm-up</span>
+          <span class="tag" id="categoryTag">Warm-up</span>
           <span class="small-label" id="indexLabel">Seen 0 / 0</span>
         </div>
         <div>
@@ -224,13 +233,69 @@
     </section>
 
     <div class="footer">
-      MSP HSK v1.0 · Random with full-cycle coverage · Add to Home Screen to use like an app.
+      MSP v2.0 · Smart random · Add to Home Screen to use like an app.
     </div>
   </div>
 
   <script>
-    // HSK1 + HSK2 core sentence bank (~80 phrases, expandable)
+    // Phrase bank: Everyday + Retail + Pharmacy + HSK1 + HSK2
     const phrases = [
+      // ---------- EVERYDAY ----------
+      { category: "everyday", label: "Everyday · Greeting", hanzi: "你好。", pinyin: "Nǐ hǎo.", english: "Hello." },
+      { category: "everyday", label: "Everyday · Greeting", hanzi: "早上好。", pinyin: "Zǎoshang hǎo.", english: "Good morning." },
+      { category: "everyday", label: "Everyday · Greeting", hanzi: "晚上好。", pinyin: "Wǎnshang hǎo.", english: "Good evening." },
+      { category: "everyday", label: "Everyday · Polite", hanzi: "谢谢。", pinyin: "Xièxie.", english: "Thank you." },
+      { category: "everyday", label: "Everyday · Polite", hanzi: "不好意思。", pinyin: "Bù hǎoyìsi.", english: "Excuse me / Sorry (polite)." },
+      { category: "everyday", label: "Everyday · Polite", hanzi: "对不起。", pinyin: "Duìbuqǐ.", english: "I’m sorry." },
+      { category: "everyday", label: "Everyday · Polite", hanzi: "没关系。", pinyin: "Méi guānxi.", english: "It’s okay / No problem." },
+      { category: "everyday", label: "Everyday · Ask repeat", hanzi: "可以再说一遍吗？", pinyin: "Kěyǐ zài shuō yí biàn ma?", english: "Could you say that again?" },
+      { category: "everyday", label: "Everyday · Slow", hanzi: "可以说慢一点吗？", pinyin: "Kěyǐ shuō màn yìdiǎn ma?", english: "Could you speak a bit more slowly?" },
+      { category: "everyday", label: "Everyday · Don’t understand", hanzi: "我听不懂。", pinyin: "Wǒ tīng bù dǒng.", english: "I don’t understand (what I hear)." },
+      { category: "everyday", label: "Everyday · Don’t understand", hanzi: "我看不懂。", pinyin: "Wǒ kàn bù dǒng.", english: "I don’t understand (what I read)." },
+      { category: "everyday", label: "Everyday · Meaning", hanzi: "这是什么意思？", pinyin: "Zhè shì shénme yìsi?", english: "What does this mean?" },
+      { category: "everyday", label: "Everyday · Name", hanzi: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzi?", english: "What is your name?" },
+      { category: "everyday", label: "Everyday · Name", hanzi: "我叫……。", pinyin: "Wǒ jiào …….", english: "My name is …" },
+      { category: "everyday", label: "Everyday · From", hanzi: "你是哪国人？", pinyin: "Nǐ shì nǎ guó rén?", english: "Which country are you from?" },
+      { category: "everyday", label: "Everyday · From", hanzi: "我是美国人。", pinyin: "Wǒ shì Měiguó rén.", english: "I’m American." },
+      { category: "everyday", label: "Everyday · Where live", hanzi: "你住在哪儿？", pinyin: "Nǐ zhù zài nǎr?", english: "Where do you live?" },
+      { category: "everyday", label: "Everyday · Where live", hanzi: "我住在伊利诺伊州。", pinyin: "Wǒ zhù zài Yīlìnuòyī zhōu.", english: "I live in Illinois." },
+      { category: "everyday", label: "Everyday · Language", hanzi: "你会说汉语吗？", pinyin: "Nǐ huì shuō Hànyǔ ma?", english: "Can you speak Chinese?" },
+      { category: "everyday", label: "Everyday · Language", hanzi: "我会说一点儿。", pinyin: "Wǒ huì shuō yìdiǎnr.", english: "I can speak a little." },
+      { category: "everyday", label: "Everyday · Busy", hanzi: "你今天忙吗？", pinyin: "Nǐ jīntiān máng ma?", english: "Are you busy today?" },
+      { category: "everyday", label: "Everyday · Busy", hanzi: "我有点儿忙。", pinyin: "Wǒ yǒudiǎnr máng.", english: "I’m a bit busy." },
+      { category: "everyday", label: "Everyday · Job", hanzi: "你做什么工作？", pinyin: "Nǐ zuò shénme gōngzuò?", english: "What do you do for work?" },
+      { category: "everyday", label: "Everyday · Bathroom", hanzi: "请问，厕所在哪儿？", pinyin: "Qǐngwèn, cèsuǒ zài nǎr?", english: "Excuse me, where is the bathroom?" },
+
+      // ---------- RETAIL ----------
+      { category: "retail", label: "Retail · Help", hanzi: "需要帮忙吗？", pinyin: "Xūyào bāngmáng ma?", english: "Do you need any help?" },
+      { category: "retail", label: "Retail · Help", hanzi: "我可以帮你找。", pinyin: "Wǒ kěyǐ bāng nǐ zhǎo.", english: "I can help you find it." },
+      { category: "retail", label: "Retail · Location", hanzi: "这个在那边的货架上。", pinyin: "Zhège zài nàbiān de huòjià shàng.", english: "That is on the shelf over there." },
+      { category: "retail", label: "Retail · Sale", hanzi: "今天这些在打折。", pinyin: "Jīntiān zhèxiē zài dǎzhé.", english: "These are on sale today." },
+      { category: "retail", label: "Retail · Card", hanzi: "你有会员卡吗？", pinyin: "Nǐ yǒu huìyuán kǎ ma?", english: "Do you have a rewards card?" },
+      { category: "retail", label: "Retail · Price check", hanzi: "我帮你看一下价钱。", pinyin: "Wǒ bāng nǐ kàn yíxià jiàqián.", english: "I’ll help you check the price." },
+      { category: "retail", label: "Retail · Out of stock", hanzi: "这个现在没有货了。", pinyin: "Zhège xiànzài méiyǒu huò le.", english: "We’re out of stock on this right now." },
+      { category: "retail", label: "Retail · Back room", hanzi: "我去后面帮你看看。", pinyin: "Wǒ qù hòumiàn bāng nǐ kànkan.", english: "I’ll go check in the back for you." },
+      { category: "retail", label: "Retail · Other size", hanzi: "你要别的颜色或者大小吗？", pinyin: "Nǐ yào bié de yánsè huòzhě dàxiǎo ma?", english: "Do you want a different color or size?" },
+      { category: "retail", label: "Retail · Receipt", hanzi: "你要小票吗？", pinyin: "Nǐ yào xiǎopiào ma?", english: "Do you want a receipt?" },
+
+      // ---------- PHARMACY ----------
+      { category: "pharmacy", label: "Pharmacy · Purpose", hanzi: "你在拿处方药还是买别的？", pinyin: "Nǐ zài ná chǔfāng yào háishì mǎi bié de?", english: "Are you picking up a prescription or buying something else?" },
+      { category: "pharmacy", label: "Pharmacy · DOB", hanzi: "你的生日是几月几号？", pinyin: "Nǐ de shēngrì shì jǐ yuè jǐ hào?", english: "What is your date of birth?" },
+      { category: "pharmacy", label: "Pharmacy · Name confirm", hanzi: "请说一下你的名字。", pinyin: "Qǐng shuō yíxià nǐ de míngzi.", english: "Please tell me your name." },
+      { category: "pharmacy", label: "Pharmacy · Allergies", hanzi: "你对什么药过敏吗？", pinyin: "Nǐ duì shénme yào guòmǐn ma?", english: "Are you allergic to any medicine?" },
+      { category: "pharmacy", label: "Pharmacy · New refill", hanzi: "这是新处方还是续药？", pinyin: "Zhè shì xīn chǔfāng háishì xù yào?", english: "Is this a new prescription or a refill?" },
+      { category: "pharmacy", label: "Pharmacy · Wait", hanzi: "大概要十五到二十分钟。", pinyin: "Dàgài yào shíwǔ dào èrshí fēnzhōng.", english: "It will take about 15–20 minutes." },
+      { category: "pharmacy", label: "Pharmacy · Directions", hanzi: "一天吃两次，每次一片。", pinyin: "Yìtiān chī liǎng cì, měi cì yí piàn.", english: "Take it twice a day, one tablet each time." },
+      { category: "pharmacy", label: "Pharmacy · With food", hanzi: "最好跟饭一起吃。", pinyin: "Zuì hǎo gēn fàn yìqǐ chī.", english: "It’s best to take it with food." },
+      { category: "pharmacy", label: "Pharmacy · Before bed", hanzi: "睡觉前吃。", pinyin: "Shuìjiào qián chī.", english: "Take it before going to bed." },
+      { category: "pharmacy", label: "Pharmacy · As needed", hanzi: "不舒服的时候再吃。", pinyin: "Bù shūfu de shíhou zài chī.", english: "Take it when you feel unwell." },
+      { category: "pharmacy", label: "Pharmacy · Interpreter", hanzi: "需要我帮你叫翻译吗？", pinyin: "Xūyào wǒ bāng nǐ jiào fānyì ma?", english: "Do you need me to call an interpreter for you?" },
+      { category: "pharmacy", label: "Pharmacy · OTC help", hanzi: "你是在找哪一种药？", pinyin: "Nǐ shì zài zhǎo nǎ yì zhǒng yào?", english: "Which kind of medicine are you looking for?" },
+      { category: "pharmacy", label: "Pharmacy · Flu shot", hanzi: "你今天要打流感疫苗吗？", pinyin: "Nǐ jīntiān yào dǎ liúgǎn yìmiáo ma?", english: "Do you want a flu shot today?" },
+      { category: "pharmacy", label: "Pharmacy · Vaccine location", hanzi: "打针的地方在那边，请跟我来。", pinyin: "Dǎzhēn de dìfang zài nàbiān, qǐng gēn wǒ lái.", english: "The vaccination area is over there, please follow me." },
+      { category: "pharmacy", label: "Pharmacy · Side effects", hanzi: "打针以后，手臂可能会有点儿疼。", pinyin: "Dǎzhēn yǐhòu, shǒubì kěnéng huì yǒudiǎnr téng.", english: "After the shot, your arm might feel a bit sore." },
+      { category: "pharmacy", label: "Pharmacy · Serious reaction", hanzi: "如果很难呼吸，请马上去急诊。", pinyin: "Rúguǒ hěn nán hūxī, qǐng mǎshàng qù jízhěn.", english: "If you have trouble breathing, please go to the ER immediately." },
+
       // ---------- HSK 1 ----------
       { category: "hsk1", label: "HSK 1 · Greeting", hanzi: "你好。", pinyin: "Nǐ hǎo.", english: "Hello." },
       { category: "hsk1", label: "HSK 1 · Greeting", hanzi: "你好吗？", pinyin: "Nǐ hǎo ma?", english: "How are you?" },
@@ -247,7 +312,7 @@
       { category: "hsk1", label: "HSK 1 · Country", hanzi: "你是哪国人？", pinyin: "Nǐ shì nǎ guó rén?", english: "Which country are you from?" },
       { category: "hsk1", label: "HSK 1 · Country", hanzi: "我是美国人。", pinyin: "Wǒ shì Měiguó rén.", english: "I’m American." },
       { category: "hsk1", label: "HSK 1 · Living", hanzi: "你住在哪儿？", pinyin: "Nǐ zhù zài nǎr?", english: "Where do you live?" },
-      { category: "hsk1", label: "HSK 1 · Living", hanzi: "我住在 ……。", pinyin: "Wǒ zhù zài …….", english: "I live in …" },
+      { category: "hsk1", label: "HSK 1 · Living", hanzi: "我住在……。", pinyin: "Wǒ zhù zài …….", english: "I live in …" },
 
       { category: "hsk1", label: "HSK 1 · Language", hanzi: "你会说汉语吗？", pinyin: "Nǐ huì shuō Hànyǔ ma?", english: "Can you speak Chinese?" },
       { category: "hsk1", label: "HSK 1 · Language", hanzi: "我会说一点儿。", pinyin: "Wǒ huì shuō yìdiǎnr.", english: "I can speak a little." },
@@ -376,17 +441,25 @@
       indexLabelEl.textContent = `Seen ${seenThisRound} / ${total}`;
     }
 
+    function modeLabel(mode) {
+      switch (mode) {
+        case "everyday": return "Everyday";
+        case "retail": return "Retail";
+        case "pharmacy": return "Pharmacy";
+        case "hsk1": return "HSK 1";
+        case "hsk2": return "HSK 2";
+        default: return "All";
+      }
+    }
+
     function updateMode(mode) {
       currentMode = mode;
       modeButtons.forEach(btn => {
         btn.classList.toggle("active", btn.dataset.mode === mode);
       });
 
-      let tagText = "HSK · Mixed";
-      if (mode === "hsk1") tagText = "HSK 1 · Core";
-      if (mode === "hsk2") tagText = "HSK 2 · Core";
+      categoryTagEl.textContent = modeLabel(mode) + " · Smart random";
 
-      categoryTagEl.textContent = tagText;
       hanziEl.textContent = "点击“新短语”";
       pinyinEl.textContent = "Diǎn​jī “xīn duǎnyǔ”";
       englishEl.textContent = "Tap “New phrase” to start.";
@@ -424,11 +497,11 @@
       pinyinEl.textContent = phrase.pinyin;
       englishEl.textContent = phrase.english;
 
-      const levelLabel = phrase.label || "HSK phrase";
+      const base = phrase.label || "Practice";
       if (currentMode === "all") {
-        categoryTagEl.textContent = levelLabel + " · Mixed";
+        categoryTagEl.textContent = base + " · Mixed";
       } else {
-        categoryTagEl.textContent = levelLabel;
+        categoryTagEl.textContent = base;
       }
 
       if (!reveal) {
@@ -461,3 +534,4 @@
   </script>
 </body>
 </html>
+
