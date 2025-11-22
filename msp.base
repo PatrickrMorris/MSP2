@@ -3,355 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <title>MSP – Mandarin Speaking Practice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-    }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       background: #0f172a;
       color: #e5e7eb;
-      display: flex;
-      min-height: 100vh;
-      align-items: stretch;
-      justify-content: center;
+      padding: 20px;
     }
-    .app {
-      max-width: 480px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 16px 16px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .card {
-      background: radial-gradient(circle at top, #1e293b, #020617);
-      border-radius: 18px;
-      padding: 18px 16px;
-      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.18);
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .title-block h1 {
-      font-size: 1.2rem;
-      margin: 0;
-      letter-spacing: 0.02em;
-    }
-    .title-block p {
-      margin: 2px 0 0;
-      font-size: 0.78rem;
-      color: #9ca3af;
-    }
-    .pill {
-      font-size: 0.72rem;
-      padding: 4px 8px;
-      background: rgba(56, 189, 248, 0.1);
-      color: #38bdf8;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      white-space: nowrap;
+    h1 {
+      margin: 0 0 10px;
     }
     .mode-row {
       display: flex;
+      gap: 10px;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      margin-bottom: 15px;
     }
     .mode-btn {
+      padding: 10px;
       flex: 1 1 45%;
-      min-width: 45%;
-      font-size: 0.8rem;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.9);
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
       color: #e5e7eb;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
     }
-    .mode-btn span.icon { font-size: 0.95rem; }
     .mode-btn.active {
       border-color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 0.98));
+      background: #0c4a6e;
     }
-    .phrase-card {
-      margin-top: 8px;
-      padding: 14px 12px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(15, 118, 110, 0.2), rgba(30, 64, 175, 0.5));
-      border: 1px solid rgba(56, 189, 248, 0.4);
-    }
-    .phrase-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .tag {
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: #cbd5f5;
-    }
-    .small-label {
-      font-size: 0.75rem;
-      color: #d1d5db;
-      opacity: 0.9;
+    .phrase-box {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      margin-bottom: 15px;
     }
     .hanzi {
-      font-size: 1.6rem;
-      margin: 4px 0 2px;
+      font-size: 1.8rem;
+      margin-bottom: 5px;
     }
     .pinyin {
-      font-size: 0.95rem;
-      color: #d1fae5;
-      margin: 0 0 4px;
+      color: #bae6fd;
+      margin-bottom: 10px;
     }
     .english {
-      font-size: 0.9rem;
-      color: #e5e7eb;
-      opacity: 0.96;
-      margin: 0;
+      color: #e2e8f0;
+      margin-bottom: 10px;
     }
     .controls-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       gap: 10px;
-      margin-top: 10px;
       flex-wrap: wrap;
     }
-    .primary-btn,
-    .ghost-btn {
-      font-size: 0.8rem;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.6);
-      background: rgba(8, 47, 73, 0.9);
+    .btn {
+      flex: 1 1 auto;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0c4a6e;
       color: #e0f2fe;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .ghost-btn {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.7);
-      color: #d1d5db;
-    }
-    .primary-btn:active,
-    .ghost-btn:active,
-    .mode-btn:active {
-      transform: translateY(1px);
-      opacity: 0.85;
-    }
-    .footer {
-      margin-top: auto;
-      font-size: 0.7rem;
       text-align: center;
-      color: #6b7280;
     }
-    .hidden { display: none; }
-    @media (min-width: 600px) {
-      .app { padding-top: 32px; }
+    .btn.secondary {
+      background: #1e293b;
+      color: #e5e7eb;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
+
 <body>
-  <div class="app">
-    <section class="card">
-      <div class="header">
-        <div class="title-block">
-          <h1>MSP · Mandarin</h1>
-          <p>Tap a mode, then “New phrase” to practice.</p>
-        </div>
-        <div class="pill">Offline mini-app</div>
-      </div>
+  <h1>MSP · Mandarin</h1>
+  <p>Tap a mode, then press “New Phrase.”</p>
 
-      <div class="mode-row">
-        <button class="mode-btn active" data-mode="all">
-          <span class="icon">🎲</span>
-          <span>Random</span>
-        </button>
-        <button class="mode-btn" data-mode="everyday">
-          <span class="icon">🌤️</span>
-          <span>Everyday</span>
-        </button>
-        <button class="mode-btn" data-mode="retail">
-          <span class="icon">🛒</span>
-          <span>Retail</span>
-        </button>
-        <button class="mode-btn" data-mode="pharmacy">
-          <span class="icon">💊</span>
-          <span>Pharmacy</span>
-        </button>
-      </div>
+  <div class="mode-row">
+    <button class="mode-btn active" data-mode="all">🎲 Random</button>
+    <button class="mode-btn" data-mode="everyday">🌤 Everyday</button>
+    <button class="mode-btn" data-mode="retail">🛒 Retail</button>
+    <button class="mode-btn" data-mode="pharmacy">💊 Pharmacy</button>
+  </div>
 
-      <div class="phrase-card" id="phraseCard">
-        <div class="phrase-top-row">
-          <span class="tag" id="categoryTag">All · Warm-up</span>
-          <span class="small-label" id="indexLabel">—</span>
-        </div>
-        <div>
-          <div class="hanzi" id="hanzi">点击“新短语”</div>
-          <div class="pinyin" id="pinyin">Diǎn​jī “xīn duǎnyǔ”</div>
-          <p class="english" id="english">Tap “New phrase” to start.</p>
-        </div>
-        <div class="controls-row">
-          <button class="primary-btn" id="newPhraseBtn">
-            <span>🔁 New phrase</span>
-          </button>
-          <button class="ghost-btn" id="toggleRevealBtn">
-            <span>👁 Hide meaning</span>
-          </button>
-        </div>
-      </div>
-    </section>
+  <div class="phrase-box">
+    <div class="hanzi" id="hanzi">点击“新短语”</div>
+    <div class="pinyin" id="pinyin">Diǎn jī "xīn duǎnyǔ"</div>
+    <div class="english" id="english">Tap "New Phrase" to begin.</div>
+  </div>
 
-    <div class="footer">
-      MSP v0.1 · Phrases are stored locally in this file. Add this page to your Home Screen to use it like an app.
-    </div>
+  <div class="controls-row">
+    <button class="btn" id="newPhraseBtn">🔁 New Phrase</button>
+    <button class="btn secondary" id="toggleBtn">👁 Hide Meaning</button>
   </div>
 
   <script>
     const phrases = [
       // Everyday
-      { category: "everyday", label: "Everyday", hanzi: "你好", pinyin: "Nǐ hǎo", english: "Hello." },
-      { category: "everyday", label: "Everyday", hanzi: "谢谢", pinyin: "Xièxie", english: "Thank you." },
-      { category: "everyday", label: "Everyday", hanzi: "不好意思", pinyin: "Bù hǎo yìsi", english: "Excuse me / Sorry (polite)." },
-      { category: "everyday", label: "Everyday", hanzi: "我听不懂", pinyin: "Wǒ tīng bù dǒng", english: "I don’t understand (what I hear)." },
-      { category: "everyday", label: "Everyday", hanzi: "可以说慢一点吗？", pinyin: "Kěyǐ shuō màn yìdiǎn ma?", english: "Could you speak a bit more slowly?" },
+      {cat:"everyday", hanzi:"你好", pinyin:"Nǐ hǎo", eng:"Hello."},
+      {cat:"everyday", hanzi:"谢谢", pinyin:"Xièxie", eng:"Thank you."},
+      {cat:"everyday", hanzi:"不好意思", pinyin:"Bù hǎoyìsi", eng:"Excuse me / Sorry."},
+      {cat:"everyday", hanzi:"我听不懂", pinyin:"Wǒ tīng bù dǒng", eng:"I don't understand."},
+      {cat:"everyday", hanzi:"可以说慢一点吗？", pinyin:"Kěyǐ shuō màn yīdiǎn ma?", eng:"Can you speak slower?"},
 
       // Retail
-      { category: "retail", label: "Retail", hanzi: "需要帮忙吗？", pinyin: "Xūyào bāngmáng ma?", english: "Do you need any help?" },
-      { category: "retail", label: "Retail", hanzi: "我可以帮你找。", pinyin: "Wǒ kěyǐ bāng nǐ zhǎo.", english: "I can help you find it." },
-      { category: "retail", label: "Retail", hanzi: "这个在那边的货架上。", pinyin: "Zhège zài nàbiān de huòjià shàng.", english: "That is on the shelf over there." },
-      { category: "retail", label: "Retail", hanzi: "今天这些在打折。", pinyin: "Jīntiān zhèxiē zài dǎzhé.", english: "These are on sale today." },
-      { category: "retail", label: "Retail", hanzi: "你有会员卡吗？", pinyin: "Nǐ yǒu huìyuán kǎ ma?", english: "Do you have a rewards card?" },
+      {cat:"retail", hanzi:"需要帮忙吗？", pinyin:"Xūyào bāngmáng ma?", eng:"Do you need any help?"},
+      {cat:"retail", hanzi:"我可以帮你找。", pinyin:"Wǒ kěyǐ bāng nǐ zhǎo.", eng:"I can help you find it."},
+      {cat:"retail", hanzi:"这个在那边的货架上。", pinyin:"Zhège zài nàbiān de huòjià shàng.", eng:"It's on the shelf over there."},
+      {cat:"retail", hanzi:"今天这些在打折。", pinyin:"Jīntiān zhèxiē zài dǎzhé.", eng:"These are on sale today."},
+      {cat:"retail", hanzi:"你有会员卡吗？", pinyin:"Nǐ yǒu huìyuánkǎ ma?", eng:"Do you have a rewards card?"},
 
       // Pharmacy
-      { category: "pharmacy", label: "Pharmacy", hanzi: "你在拿处方药还是买别的？", pinyin: "Nǐ zài ná chǔfāng yào háishì mǎi bié de?", english: "Are you picking up a prescription or buying something else?" },
-      { category: "pharmacy", label: "Pharmacy", hanzi: "你的生日是几月几号？", pinyin: "Nǐ de shēngrì shì jǐ yuè jǐ hào?", english: "What is your date of birth?" },
-      { category: "pharmacy", label: "Pharmacy", hanzi: "你对什么药过敏吗？", pinyin: "Nǐ duì shénme yào guòmǐn ma?", english: "Are you allergic to any medicine?" },
-      { category: "pharmacy", label: "Pharmacy", hanzi: "一天吃两次，每次一片。", pinyin: "Yìtiān chī liǎng cì, měi cì yí piàn.", english: "Take it twice a day, one tablet each time." },
-      { category: "pharmacy", label: "Pharmacy", hanzi: "需要我帮你叫翻译吗？", pinyin: "Xūyào wǒ bāng nǐ jiào fānyì ma?", english: "Do you need me to call an interpreter for you?" }
-    ];
-
-    let currentMode = "all";
-    let currentIndex = null;
-    let currentPool = phrases.slice();
-    let reveal = true;
-
-    const modeButtons = document.querySelectorAll(".mode-btn");
-    const hanziEl = document.getElementById("hanzi");
-    const pinyinEl = document.getElementById("pinyin");
-    const englishEl = document.getElementById("english");
-    const categoryTagEl = document.getElementById("categoryTag");
-    const indexLabelEl = document.getElementById("indexLabel");
-    const newPhraseBtn = document.getElementById("newPhraseBtn");
-    const toggleRevealBtn = document.getElementById("toggleRevealBtn");
-
-    function updateMode(mode) {
-      currentMode = mode;
-      modeButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.mode === mode);
-      });
-
-      if (mode === "all") {
-        currentPool = phrases.slice();
-        categoryTagEl.textContent = "All · Mixed practice";
-      } else {
-        currentPool = phrases.filter(p => p.category === mode);
-        const label = currentPool[0]?.label || "Practice";
-        categoryTagEl.textContent = label + " · " + (mode === "everyday" ? "Daily use" : mode === "retail" ? "Store / Front" : "Pharmacy");
-      }
-
-      currentIndex = null;
-      indexLabelEl.textContent = "—";
-      hanziEl.textContent = "点击“新短语”";
-      pinyinEl.textContent = "Diǎn​jī “xīn duǎnyǔ”";
-      englishEl.textContent = "Tap “New phrase” to start.";
-      if (!reveal) {
-        pinyinEl.classList.add("hidden");
-        englishEl.classList.add("hidden");
-      }
-    }
-
-    function getRandomIndex() {
-      if (currentPool.length === 0) return null;
-      if (currentPool.length === 1) return 0;
-      let idx;
-      do {
-        idx = Math.floor(Math.random() * currentPool.length);
-      } while (idx === currentIndex);
-      return idx;
-    }
-
-    function showNewPhrase() {
-      if (!currentPool.length) {
-        hanziEl.textContent = "这里还没有短语";
-        pinyinEl.textContent = "Zhèlǐ hái méiyǒu duǎnyǔ";
-        englishEl.textContent = "No phrases in this category yet.";
-        indexLabelEl.textContent = "0 / 0";
-        return;
-      }
-      const idx = getRandomIndex();
-      currentIndex = idx;
-      const phrase = currentPool[idx];
-      hanziEl.textContent = phrase.hanzi;
-      pinyinEl.textContent = phrase.pinyin;
-      englishEl.textContent = phrase.english;
-
-      const displayLabel = phrase.label || "Practice";
-      indexLabelEl.textContent = (idx + 1) + " / " + currentPool.length;
-      if (currentMode === "all") {
-        categoryTagEl.textContent = displayLabel + " · Random";
-      } else {
-        categoryTagEl.textContent =
-          displayLabel + " · " +
-          (currentMode === "everyday" ? "Daily use" :
-           currentMode === "retail" ? "Store / Front" : "Pharmacy");
-      }
-
-      if (!reveal) {
-        pinyinEl.classList.add("hidden");
-        englishEl.classList.add("hidden");
-      }
-    }
-
-    function toggleReveal() {
-      reveal = !reveal;
-      if (reveal) {
-        pinyinEl.classList.remove("hidden");
-        englishEl.classList.remove("hidden");
-        toggleRevealBtn.innerHTML = "<span>👁 Hide meaning</span>";
-      } else {
-        pinyinEl.classList.add("hidden");
-        englishEl.classList.add("hidden");
-        toggleRevealBtn.innerHTML = "<span>👁 Show meaning</span>";
-      }
-    }
-
-    modeButtons.forEach(btn => {
-      btn.addEventListener("click", () => updateMode(btn.dataset.mode));
-    });
-
-    newPhraseBtn.addEventListener("click", showNewPhrase);
-    toggleRevealBtn.addEventListener("click", toggleReveal);
-  </script>
-</body>
-</html>
+      {cat:"pharmacy", hanzi:"你在拿处方药还是买别的？", pinyin:"Nǐ zài ná chǔfāng yào háishi mǎi bié de?", eng:"Picking up a prescription or buying something else?"},
+      {cat:"pharmacy", hanzi:"你的生日是几月几号？", pinyin:"Nǐ de shēngrì shì jǐ yuè jǐ hào?", eng:"What's your date of birth?"},
+      {cat:"pharmacy", hanzi:"你对什么药过敏吗？", pinyin:"Nǐ duì shénme yào guòmǐn ma?", eng:"Are you allergic to any medicine?"},
+      {cat:"pharmacy", hanzi:"一天吃两次，每次一片。", pinyin:"Yìtiān chī liǎng cì, měi cì yī piàn.", eng:"Take twice daily, one tablet each time."},
+      {cat:"pharmacy", hanzi:"需要我帮你叫翻译吗？", pinyin:"Xūyào wǒ bāng nǐ jiào fānyì ma?", eng:"Do you
