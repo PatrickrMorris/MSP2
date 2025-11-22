@@ -15,6 +15,12 @@
     h1 {
       margin: 0 0 10px;
     }
+    p {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
     .mode-row {
       display: flex;
       gap: 10px;
@@ -28,6 +34,7 @@
       border: 1px solid #334155;
       border-radius: 10px;
       color: #e5e7eb;
+      font-size: 0.9rem;
     }
     .mode-btn.active {
       border-color: #38bdf8;
@@ -46,11 +53,13 @@
     }
     .pinyin {
       color: #bae6fd;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
     }
     .english {
       color: #e2e8f0;
       margin-bottom: 10px;
+      font-size: 0.9rem;
     }
     .controls-row {
       display: flex;
@@ -65,6 +74,7 @@
       background: #0c4a6e;
       color: #e0f2fe;
       text-align: center;
+      font-size: 0.9rem;
     }
     .btn.secondary {
       background: #1e293b;
@@ -73,12 +83,17 @@
     .hidden {
       display: none;
     }
+    .hint {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 12px;
+    }
   </style>
 </head>
 
 <body>
   <h1>MSP · Mandarin</h1>
-  <p>Tap a mode, then press “New Phrase.”</p>
+  <p>Choose a mode, tap “New Phrase,” then tap “Hear Pronunciation” to listen.</p>
 
   <div class="mode-row">
     <button class="mode-btn active" data-mode="all">🎲 Random</button>
@@ -96,9 +111,15 @@
   <div class="controls-row">
     <button class="btn" id="newPhraseBtn">🔁 New Phrase</button>
     <button class="btn secondary" id="toggleBtn">👁 Hide Meaning</button>
+    <button class="btn secondary" id="speakBtn">🔊 Hear Pronunciation</button>
+  </div>
+
+  <div class="hint">
+    If the voice sounds wrong, check your device’s language/voice settings. iPhone usually has at least one Mandarin (zh-CN) voice available.
   </div>
 
   <script>
+    // Phrase data
     const phrases = [
       // Everyday
       {cat:"everyday", hanzi:"你好", pinyin:"Nǐ hǎo", eng:"Hello."},
@@ -124,11 +145,16 @@
 
     let mode = "all";
     let hidden = false;
+    let currentPhrase = null;
 
-    const hanziEl = document.getElementById("hanzi");
-    const pinyinEl = document.getElementById("pinyin");
+    const hanziEl   = document.getElementById("hanzi");
+    const pinyinEl  = document.getElementById("pinyin");
     const englishEl = document.getElementById("english");
+    const newBtn    = document.getElementById("newPhraseBtn");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const speakBtn  = document.getElementById("speakBtn");
 
+    // Mode switching
     document.querySelectorAll(".mode-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
@@ -137,26 +163,68 @@
       });
     });
 
-    document.getElementById("newPhraseBtn").addEventListener("click", () => {
+    // New phrase
+    newBtn.addEventListener("click", () => {
       let pool = mode === "all" ? phrases : phrases.filter(p => p.cat === mode);
-      let p = pool[Math.floor(Math.random() * pool.length)];
-      hanziEl.textContent = p.hanzi;
-      pinyinEl.textContent = p.pinyin;
+      if (!pool.length) return;
+      const p = pool[Math.floor(Math.random() * pool.length)];
+      currentPhrase = p;
+      hanziEl.textContent   = p.hanzi;
+      pinyinEl.textContent  = p.pinyin;
       englishEl.textContent = p.eng;
       if (hidden) englishEl.classList.add("hidden");
     });
 
-    document.getElementById("toggleBtn").addEventListener("click", () => {
+    // Hide/show meaning
+    toggleBtn.addEventListener("click", () => {
       hidden = !hidden;
       if (hidden) {
         englishEl.classList.add("hidden");
-        document.getElementById("toggleBtn").textContent = "👁 Show Meaning";
+        toggleBtn.textContent = "👁 Show Meaning";
       } else {
         englishEl.classList.remove("hidden");
-        document.getElementById("toggleBtn").textContent = "👁 Hide Meaning";
+        toggleBtn.textContent = "👁 Hide Meaning";
       }
     });
-  </script>
 
+    // ---------- Speech synthesis (robotic pronunciation) ----------
+    let voices = [];
+    function loadVoices() {
+      voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    }
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function getChineseVoice() {
+      if (!voices || !voices.length) return null;
+      // Prefer zh-CN voices if available
+      let zhVoices = voices.filter(v =>
+        v.lang.toLowerCase().startsWith("zh") ||
+        v.name.toLowerCase().includes("chinese")
+      );
+      if (zhVoices.length) return zhVoices[0];
+      // Fallback: just return the first voice
+      return voices[0];
+    }
+
+    function speakCurrentPhrase() {
+      if (!window.speechSynthesis) {
+        alert("Speech not supported in this browser.");
+        return;
+      }
+      const utter = new SpeechSynthesisUtterance();
+      const textToSpeak = currentPhrase ? currentPhrase.hanzi : hanziEl.textContent;
+      utter.text = textToSpeak;
+      const v = getChineseVoice();
+      if (v) utter.voice = v;
+      utter.lang = v ? v.lang : "zh-CN";
+      window.speechSynthesis.cancel(); // stop any previous speech
+      window.speechSynthesis.speak(utter);
+    }
+
+    speakBtn.addEventListener("click", speakCurrentPhrase);
+  </script>
 </body>
 </html>
