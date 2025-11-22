@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>MSP – Mandarin Practice v3.0</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
     :root {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -108,6 +107,7 @@
       align-items: center;
       gap: 6px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
     }
     .tag {
       font-size: 0.7rem;
@@ -141,18 +141,19 @@
       margin: 0;
     }
 
-    .controls-row {
+    .controls-row-main,
+    .controls-row-secondary {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       margin-top: 10px;
       flex-wrap: wrap;
     }
 
     .primary-btn,
     .ghost-btn,
-    .secondary-btn {
+    .icon-btn {
       font-size: 0.8rem;
       padding: 8px 10px;
       border-radius: 999px;
@@ -161,34 +162,27 @@
       color: #e0f2fe;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      flex: 1;
+      min-width: 0;
+      text-align: center;
     }
     .ghost-btn {
       background: transparent;
       border-color: rgba(148, 163, 184, 0.7);
       color: #d1d5db;
     }
-    .secondary-btn {
-      border-color: rgba(96, 165, 250, 0.8);
-      background: rgba(15, 23, 42, 0.9);
-      color: #bfdbfe;
+    .icon-btn {
+      flex: 0 0 auto;
+      padding: 8px 10px;
     }
-
     .primary-btn:active,
     .ghost-btn:active,
-    .secondary-btn:active,
+    .icon-btn:active,
     .mode-btn:active {
       transform: translateY(1px);
       opacity: 0.85;
-    }
-
-    .controls-row-2 {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      flex-wrap: wrap;
     }
 
     .footer {
@@ -198,18 +192,9 @@
       color: #6b7280;
     }
     .hidden { display: none; }
-    .pill-small {
-      font-size: 0.7rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.8);
-      color: #e5e7eb;
-    }
-    .pill-on {
-      border-color: #22c55e;
-      color: #bbf7d0;
-      background: rgba(22, 163, 74, 0.2);
+
+    @media (min-width: 600px) {
+      .app { padding-top: 32px; }
     }
   </style>
 </head>
@@ -219,19 +204,19 @@
       <div class="header">
         <div class="title-block">
           <h1>MSP · Mandarin v3.0</h1>
-          <p>HSK1–2 · Everyday · Retail · Pharmacy</p>
+          <p>HSK1–2 + Everyday + Retail + Pharmacy · Test + Audio + Favorites</p>
         </div>
-        <div class="pill" id="testModePill">Drill mode</div>
+        <div class="pill">Drill mode</div>
       </div>
 
       <div class="mode-row">
-        <button class="mode-btn active" data-mode="all"><span class="icon">🎲</span>All</button>
-        <button class="mode-btn" data-mode="everyday"><span class="icon">🌤️</span>Everyday</button>
-        <button class="mode-btn" data-mode="retail"><span class="icon">🛒</span>Retail</button>
-        <button class="mode-btn" data-mode="pharmacy"><span class="icon">💊</span>Pharmacy</button>
-        <button class="mode-btn" data-mode="hsk1"><span class="icon">①</span>HSK 1</button>
-        <button class="mode-btn" data-mode="hsk2"><span class="icon">②</span>HSK 2</button>
-        <button class="mode-btn" data-mode="favorites"><span class="icon">⭐</span>Favorites</button>
+        <button class="mode-btn active" data-mode="all"><span class="icon">🎲</span><span>All</span></button>
+        <button class="mode-btn" data-mode="everyday"><span class="icon">🌤️</span><span>Everyday</span></button>
+        <button class="mode-btn" data-mode="retail"><span class="icon">🛒</span><span>Retail</span></button>
+        <button class="mode-btn" data-mode="pharmacy"><span class="icon">💊</span><span>Pharmacy</span></button>
+        <button class="mode-btn" data-mode="hsk1"><span class="icon">①</span><span>HSK 1</span></button>
+        <button class="mode-btn" data-mode="hsk2"><span class="icon">②</span><span>HSK 2</span></button>
+        <button class="mode-btn" data-mode="favorites"><span class="icon">⭐</span><span>Favorites</span></button>
       </div>
 
       <div class="phrase-card" id="phraseCard">
@@ -246,26 +231,28 @@
           <p class="english" id="english">Tap "New phrase" to begin.</p>
         </div>
 
-        <div class="controls-row">
+        <div class="controls-row-main">
           <button class="primary-btn" id="newPhraseBtn">🔁 New phrase</button>
           <button class="ghost-btn" id="toggleRevealBtn">👁 Hide meaning</button>
         </div>
 
-        <div class="controls-row-2">
-          <button class="secondary-btn" id="audioBtn">🔊 Play audio</button>
-          <button class="secondary-btn" id="favoriteBtn">⭐ Add to favorites</button>
+        <div class="controls-row-secondary">
           <button class="ghost-btn" id="testModeBtn">🧪 Test mode: Off</button>
+          <button class="icon-btn" id="favoriteBtn">☆ Fav</button>
+          <button class="icon-btn" id="audioBtn">🔊</button>
         </div>
       </div>
     </section>
 
     <div class="footer">
-      MSP v3.0 · Smart random · Test · Audio · Favorites
+      MSP v3.0 · Smart Random · Test mode · Audio · Favorites · Best used as a Home Screen icon.
     </div>
   </div>
 
   <script>
-    // --------- PHRASE BANK (can be extended easily) ---------
+    // ------------------------------
+    // PHRASE BANK
+    // ------------------------------
     const phrases = [
       // ---------- EVERYDAY ----------
       { category: "everyday", label: "Everyday · Greeting", hanzi: "你好。", pinyin: "Nǐ hǎo.", english: "Hello." },
@@ -275,7 +262,7 @@
       { category: "everyday", label: "Everyday · Polite", hanzi: "不好意思。", pinyin: "Bù hǎoyìsi.", english: "Excuse me / Sorry (polite)." },
       { category: "everyday", label: "Everyday · Polite", hanzi: "对不起。", pinyin: "Duìbuqǐ.", english: "I’m sorry." },
       { category: "everyday", label: "Everyday · Polite", hanzi: "没关系。", pinyin: "Méi guānxi.", english: "It's okay / No problem." },
-      { category: "everyday", label: "Everyday · Repeat", hanzi: "可以再说一遍吗？", pinyin: "Kěyǐ zài shuō yí biàn ma?", english: "Could you say that again?" },
+      { category: "everyday", label: "Everyday · Ask repeat", hanzi: "可以再说一遍吗？", pinyin: "Kěyǐ zài shuō yí biàn ma?", english: "Could you say that again?" },
       { category: "everyday", label: "Everyday · Slow", hanzi: "可以说慢一点吗？", pinyin: "Kěyǐ shuō màn yìdiǎn ma?", english: "Can you speak a bit slower?" },
       { category: "everyday", label: "Everyday · Don’t understand", hanzi: "我听不懂。", pinyin: "Wǒ tīng bù dǒng.", english: "I don’t understand (hearing)." },
       { category: "everyday", label: "Everyday · Don’t understand", hanzi: "我看不懂。", pinyin: "Wǒ kàn bù dǒng.", english: "I don’t understand (reading)." },
@@ -292,10 +279,9 @@
       { category: "everyday", label: "Everyday · Busy", hanzi: "我有点儿忙。", pinyin: "Wǒ yǒudiǎnr máng.", english: "I’m a bit busy." },
       { category: "everyday", label: "Everyday · Job", hanzi: "你做什么工作？", pinyin: "Nǐ zuò shénme gōngzuò?", english: "What do you do for work?" },
       { category: "everyday", label: "Everyday · Bathroom", hanzi: "请问，厕所在哪儿？", pinyin: "Qǐngwèn, cèsuǒ zài nǎr?", english: "Where is the bathroom?" },
-      { category: "everyday", label: "Everyday · Time", hanzi: "现在几点？", pinyin: "Xiànzài jǐ diǎn?", english: "What time is it now?" },
-      { category: "everyday", label: "Everyday · Date", hanzi: "今天几号？", pinyin: "Jīntiān jǐ hào?", english: "What’s today’s date?" },
-      { category: "everyday", label: "Everyday · Eat", hanzi: "你吃饭了吗？", pinyin: "Nǐ chīfàn le ma?", english: "Have you eaten?" },
-      { category: "everyday", label: "Everyday · Not eaten", hanzi: "我还没吃。", pinyin: "Wǒ hái méi chī.", english: "I haven’t eaten yet." },
+      { category: "everyday", label: "Everyday · Tired", hanzi: "我有点儿累。", pinyin: "Wǒ yǒudiǎnr lèi.", english: "I’m a bit tired." },
+      { category: "everyday", label: "Everyday · Like", hanzi: "我很喜欢这个。", pinyin: "Wǒ hěn xǐhuan zhège.", english: "I really like this." },
+      { category: "everyday", label: "Everyday · Don’t like", hanzi: "我不太喜欢。", pinyin: "Wǒ bú tài xǐhuan.", english: "I don’t really like it." },
 
       // ---------- RETAIL ----------
       { category: "retail", label: "Retail · Help", hanzi: "需要帮忙吗？", pinyin: "Xūyào bāngmáng ma?", english: "Do you need help?" },
@@ -307,32 +293,41 @@
       { category: "retail", label: "Retail · Out of stock", hanzi: "这个现在没有货了。", pinyin: "Zhège xiànzài méiyǒu huò le.", english: "We're out of stock right now." },
       { category: "retail", label: "Retail · Back room", hanzi: "我去后面帮你看看。", pinyin: "Wǒ qù hòumiàn bāng nǐ kànkan.", english: "I'll check in the back." },
       { category: "retail", label: "Retail · Other size", hanzi: "你要别的颜色或者大小吗？", pinyin: "Nǐ yào bié de yánsè huòzhě dàxiǎo ma?", english: "Do you want another size or color?" },
-      { category: "retail", label: "Retail · Receipt", hanzi: "你要小票吗？", pinyin: "Nǐ yào xiǎopiào ma?", english: "Do you want a receipt?" },
+      { category: "retail", label: "Retail · Receipt", hanzi: "你要小票吗？", pinyin: "Nǐ yào xiǎopiào ma?", english: "Would you like a receipt?" },
+      { category: "retail", label: "Retail · Line", hanzi: "请在这里排队。", pinyin: "Qǐng zài zhèlǐ páiduì.", english: "Please line up here." },
+      { category: "retail", label: "Retail · Cash or card", hanzi: "你用现金还是刷卡？", pinyin: "Nǐ yòng xiànjīn háishì shuākǎ?", english: "Cash or card?" },
 
       // ---------- PHARMACY ----------
       { category: "pharmacy", label: "Pharmacy · Purpose", hanzi: "你在拿处方药还是买别的？", pinyin: "Nǐ zài ná chǔfāng yào háishì mǎi bié de?", english: "Are you picking up a prescription or something else?" },
       { category: "pharmacy", label: "Pharmacy · DOB", hanzi: "你的生日是几月几号？", pinyin: "Nǐ de shēngrì shì jǐ yuè jǐ hào?", english: "What is your date of birth?" },
       { category: "pharmacy", label: "Pharmacy · Name confirm", hanzi: "请说一下你的名字。", pinyin: "Qǐng shuō yíxià nǐ de míngzi.", english: "Please tell me your name." },
       { category: "pharmacy", label: "Pharmacy · Allergies", hanzi: "你对什么药过敏吗？", pinyin: "Nǐ duì shénme yào guòmǐn ma?", english: "Are you allergic to any medicine?" },
-      { category: "pharmacy", label: "Pharmacy · New refill", hanzi: "这是新处方还是续药？", pinyin: "Zhè shì xīn chǔfāng háishì xù yào?", english: "Is this a new prescription or a refill?" },
-      { category: "pharmacy", label: "Pharmacy · Wait", hanzi: "大概要十五到二十分钟。", pinyin: "Dàgài yào shíwǔ dào èrshí fēnzhōng.", english: "It’ll take about 15–20 minutes." },
-      { category: "pharmacy", label: "Pharmacy · Directions", hanzi: "一天吃两次，每次一片。", pinyin: "Yìtiān chī liǎng cì, měi cì yí piàn.", english: "Take twice a day, one tablet each time." },
+      { category: "pharmacy", label: "Pharmacy · New vs refill", hanzi: "这是新处方还是续药？", pinyin: "Zhè shì xīn chǔfāng háishì xù yào?", english: "Is this a new prescription or a refill?" },
+      { category: "pharmacy", label: "Pharmacy · Wait time", hanzi: "大概要十五到二十分钟。", pinyin: "Dàgài yào shíwǔ dào èrshí fēnzhōng.", english: "It’ll take about 15–20 minutes." },
+      { category: "pharmacy", label: "Pharmacy · Directions", hanzi: "一天吃两次，每次一片。", pinyin: "Yìtiān chī liǎng cì, měi cì yí piàn.", english: "Take it twice a day, one tablet each time." },
       { category: "pharmacy", label: "Pharmacy · With food", hanzi: "最好跟饭一起吃。", pinyin: "Zuì hǎo gēn fàn yìqǐ chī.", english: "Take it with food." },
       { category: "pharmacy", label: "Pharmacy · Before bed", hanzi: "睡觉前吃。", pinyin: "Shuìjiào qián chī.", english: "Take it before bed." },
-      { category: "pharmacy", label: "Pharmacy · As needed", hanzi: "不舒服的时候再吃。", pinyin: "Bù shūfu de shíhou zài chī.", english: "Take as needed." },
+      { category: "pharmacy", label: "Pharmacy · As needed", hanzi: "不舒服的时候再吃。", pinyin: "Bù shūfu de shíhou zài chī.", english: "Take it when you feel unwell." },
+      { category: "pharmacy", label: "Pharmacy · Interpreter", hanzi: "需要我帮你叫翻译吗？", pinyin: "Xūyào wǒ bāng nǐ jiào fānyì ma?", english: "Do you need an interpreter?" },
       { category: "pharmacy", label: "Pharmacy · OTC", hanzi: "你是在找哪一种药？", pinyin: "Nǐ shì zài zhǎo nǎ yì zhǒng yào?", english: "Which medicine are you looking for?" },
       { category: "pharmacy", label: "Pharmacy · Flu shot", hanzi: "你今天要打流感疫苗吗？", pinyin: "Nǐ jīntiān yào dǎ liúgǎn yìmiáo ma?", english: "Do you want a flu shot today?" },
       { category: "pharmacy", label: "Pharmacy · Vaccine area", hanzi: "打针的地方在那边，请跟我来。", pinyin: "Dǎzhēn de dìfang zài nàbiān, qǐng gēn wǒ lái.", english: "The vaccination area is over there, please follow me." },
+      { category: "pharmacy", label: "Pharmacy · Side effects", hanzi: "打针以后手臂可能会有点儿疼。", pinyin: "Dǎzhēn yǐhòu shǒubì kěnéng huì yǒudiǎnr téng.", english: "Your arm may be a bit sore afterwards." },
 
       // ---------- HSK 1 ----------
       { category: "hsk1", label: "HSK1 · Hello", hanzi: "你好。", pinyin: "Nǐ hǎo.", english: "Hello." },
       { category: "hsk1", label: "HSK1 · How are you", hanzi: "你好吗？", pinyin: "Nǐ hǎo ma?", english: "How are you?" },
-      { category: "hsk1", label: "HSK1 · Reply", hanzi: "我很好，你呢？", pinyin: "Wǒ hěn hǎo, nǐ ne?", english: "I'm very good, and you?" },
+      { category: "hsk1", label: "HSK1 · Reply", hanzi: "我很好，你呢？", pinyin: "Wǒ hěn hǎo, nǐ ne?", english: "I’m very good, and you?" },
       { category: "hsk1", label: "HSK1 · Goodbye", hanzi: "再见。", pinyin: "Zàijiàn.", english: "Goodbye." },
       { category: "hsk1", label: "HSK1 · Thanks", hanzi: "谢谢。", pinyin: "Xièxie.", english: "Thank you." },
-      { category: "hsk1", label: "HSK1 · Welcome", hanzi: "不客气。", pinyin: "Bú kèqi.", english: "You're welcome." },
+      { category: "hsk1", label: "HSK1 · Welcome", hanzi: "不客气。", pinyin: "Bú kèqi.", english: "You’re welcome." },
       { category: "hsk1", label: "HSK1 · Sorry", hanzi: "对不起。", pinyin: "Duìbuqǐ.", english: "Sorry." },
+      { category: "hsk1", label: "HSK1 · No problem", hanzi: "没关系。", pinyin: "Méi guānxi.", english: "It’s okay / No problem." },
       { category: "hsk1", label: "HSK1 · Bathroom", hanzi: "请问，厕所在哪儿？", pinyin: "Qǐngwèn, cèsuǒ zài nǎr?", english: "Where is the bathroom?" },
+      { category: "hsk1", label: "HSK1 · Time", hanzi: "现在几点？", pinyin: "Xiànzài jǐ diǎn?", english: "What time is it?" },
+      { category: "hsk1", label: "HSK1 · Today date", hanzi: "今天几号？", pinyin: "Jīntiān jǐ hào?", english: "What date is it today?" },
+      { category: "hsk1", label: "HSK1 · From", hanzi: "你是哪国人？", pinyin: "Nǐ shì nǎ guó rén?", english: "Which country are you from?" },
+      { category: "hsk1", label: "HSK1 · Live", hanzi: "你住在哪儿？", pinyin: "Nǐ zhù zài nǎr?", english: "Where do you live?" },
 
       // ---------- HSK 2 ----------
       { category: "hsk2", label: "HSK2 · Transport", hanzi: "你怎么来这儿？", pinyin: "Nǐ zěnme lái zhèr?", english: "How did you get here?" },
@@ -340,41 +335,109 @@
       { category: "hsk2", label: "HSK2 · Car", hanzi: "我开车来。", pinyin: "Wǒ kāichē lái.", english: "I drove here." },
       { category: "hsk2", label: "HSK2 · Weekend", hanzi: "你周末喜欢做什么？", pinyin: "Nǐ zhōumò xǐhuan zuò shénme?", english: "What do you like to do on weekends?" },
       { category: "hsk2", label: "HSK2 · Study", hanzi: "你在学什么？", pinyin: "Nǐ zài xué shénme?", english: "What are you studying?" },
-      { category: "hsk2", label: "HSK2 · Studying Chinese", hanzi: "我在学中文。", pinyin: "Wǒ zài xué Zhōngwén.", english: "I am learning Chinese." },
-      { category: "hsk2", label: "HSK2 · Difficulty", hanzi: "学中文难不难？", pinyin: "Xué Zhōngwén nán bu nán?", english: "Is Chinese hard?" },
-      { category: "hsk2", label: "HSK2 · Hard but fun", hanzi: "有一点儿难，但是很有意思。", pinyin: "Yǒu yìdiǎnr nán, dànshì hěn yǒuyìsi.", english: "A bit hard, but very interesting." }
+      { category: "hsk2", label: "HSK2 · Study CN", hanzi: "我在学中文。", pinyin: "Wǒ zài xué Zhōngwén.", english: "I’m studying Chinese." },
+      { category: "hsk2", label: "HSK2 · Hard but fun", hanzi: "有一点儿难，但是很有意思。", pinyin: "Yǒu yìdiǎnr nán, dànshì hěn yǒuyìsi.", english: "It’s a bit hard, but very interesting." },
+      { category: "hsk2", label: "HSK2 · Duration", hanzi: "你每天学习多长时间？", pinyin: "Nǐ měitiān xuéxí duō cháng shíjiān?", english: "How long do you study every day?" },
+      { category: "hsk2", label: "HSK2 · One hour", hanzi: "我每天学习一个小时。", pinyin: "Wǒ měitiān xuéxí yí ge xiǎoshí.", english: "I study one hour every day." },
+      { category: "hsk2", label: "HSK2 · HSK exam", hanzi: "我想参加HSK考试。", pinyin: "Wǒ xiǎng cānjiā HSK kǎoshì.", english: "I want to take the HSK exam." },
+      { category: "hsk2", label: "HSK2 · Level", hanzi: "你准备考HSK几级？", pinyin: "Nǐ zhǔnbèi kǎo HSK jǐ jí?", english: "Which HSK level are you preparing for?" },
+      { category: "hsk2", label: "HSK2 · Level 2", hanzi: "我准备考HSK二级。", pinyin: "Wǒ zhǔnbèi kǎo HSK èr jí.", english: "I’m preparing for HSK Level 2." }
     ];
 
-    // ---------- STATE ----------
+    // Add IDs to each phrase for favorites
+    phrases.forEach((p, idx) => p.id = idx);
+
+    // ------------------------------
+    // STATE
+    // ------------------------------
     let currentMode = "all";
     let currentList = [];
     let shuffled = [];
-    let index = 0;
+    let currentIndex = 0;
     let revealed = true;
     let testMode = false;
     let currentPhrase = null;
-    const favoriteKeys = new Set();
 
-    // ---------- HELPERS ----------
+    const FAVORITES_KEY = "mspFavoritesV3";
+    let favorites = loadFavorites();
+
+    // ------------------------------
+    // DOM ELEMENTS
+    // ------------------------------
+    const modeButtons = document.querySelectorAll(".mode-btn");
     const hanziEl = document.getElementById("hanzi");
     const pinyinEl = document.getElementById("pinyin");
     const englishEl = document.getElementById("english");
-    const tagEl = document.getElementById("categoryTag");
-    const indexEl = document.getElementById("indexLabel");
-    const toggleBtn = document.getElementById("toggleRevealBtn");
+    const categoryTagEl = document.getElementById("categoryTag");
+    const indexLabelEl = document.getElementById("indexLabel");
+    const newPhraseBtn = document.getElementById("newPhraseBtn");
+    const toggleRevealBtn = document.getElementById("toggleRevealBtn");
     const testModeBtn = document.getElementById("testModeBtn");
-    const testModePill = document.getElementById("testModePill");
-    const audioBtn = document.getElementById("audioBtn");
     const favoriteBtn = document.getElementById("favoriteBtn");
+    const audioBtn = document.getElementById("audioBtn");
 
-    function makeKey(p) {
-      return `${p.hanzi}|${p.pinyin}|${p.english}`;
+    // ------------------------------
+    // FAVORITES STORAGE
+    // ------------------------------
+    function loadFavorites() {
+      try {
+        const raw = localStorage.getItem(FAVORITES_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+        return [];
+      } catch {
+        return [];
+      }
     }
 
-    function getPhrasesForMode(mode) {
+    function saveFavorites() {
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+      } catch {
+        // ignore
+      }
+    }
+
+    function isFavorite(id) {
+      return favorites.includes(id);
+    }
+
+    function toggleFavorite() {
+      if (!currentPhrase) return;
+      const id = currentPhrase.id;
+      if (isFavorite(id)) {
+        favorites = favorites.filter(f => f !== id);
+      } else {
+        favorites.push(id);
+      }
+      saveFavorites();
+      updateFavoriteButton();
+      if (currentMode === "favorites") {
+        // refresh list for favorites mode
+        setMode("favorites");
+      }
+    }
+
+    function updateFavoriteButton() {
+      if (!currentPhrase) {
+        favoriteBtn.textContent = "☆ Fav";
+        return;
+      }
+      if (isFavorite(currentPhrase.id)) {
+        favoriteBtn.textContent = "★ Fav’d";
+      } else {
+        favoriteBtn.textContent = "☆ Fav";
+      }
+    }
+
+    // ------------------------------
+    // MODE & PHRASE SELECTION
+    // ------------------------------
+    function getListForMode(mode) {
       if (mode === "all") return phrases;
       if (mode === "favorites") {
-        return phrases.filter(p => favoriteKeys.has(makeKey(p)));
+        return phrases.filter(p => favorites.includes(p.id));
       }
       return phrases.filter(p => p.category === mode);
     }
@@ -388,205 +451,136 @@
       return copy;
     }
 
-    function modeLabel(mode) {
-      switch (mode) {
-        case "everyday": return "Everyday";
-        case "retail": return "Retail";
-        case "pharmacy": return "Pharmacy";
-        case "hsk1": return "HSK 1";
-        case "hsk2": return "HSK 2";
-        case "favorites": return "Favorites";
-        default: return "All";
-      }
-    }
-
-    function updateIndexLabel() {
-      const total = currentList.length;
-      if (!total || index < 0) {
-        indexEl.textContent = "Seen 0 / 0";
-      } else {
-        indexEl.textContent = `Seen ${index + 1} / ${total}`;
-      }
-    }
-
-    function updateFavoriteButton() {
-      if (!currentPhrase) {
-        favoriteBtn.textContent = "⭐ Add to favorites";
-        return;
-      }
-      const key = makeKey(currentPhrase);
-      if (favoriteKeys.has(key)) {
-        favoriteBtn.textContent = "⭐ In favorites";
-      } else {
-        favoriteBtn.textContent = "⭐ Add to favorites";
-      }
-    }
-
-    function applyRevealState() {
-      const show = revealed || !currentPhrase ? true : false;
-      if (testMode && currentPhrase) {
-        // in test mode, revealed flag controls visibility
-        if (revealed) {
-          pinyinEl.style.display = "block";
-          englishEl.style.display = "block";
-          toggleBtn.textContent = "👁 Hide meaning";
-        } else {
-          pinyinEl.style.display = "none";
-          englishEl.style.display = "none";
-          toggleBtn.textContent = "👁 Show meaning";
-        }
-      } else {
-        // normal drill mode
-        pinyinEl.style.display = "block";
-        englishEl.style.display = "block";
-        toggleBtn.textContent = "👁 Hide meaning";
-      }
-    }
-
-    // ---------- CORE ----------
     function setMode(mode) {
       currentMode = mode;
-
-      document.querySelectorAll(".mode-btn").forEach(btn => {
+      modeButtons.forEach(btn => {
         btn.classList.toggle("active", btn.dataset.mode === mode);
       });
 
-      currentList = getPhrasesForMode(currentMode);
-      if (!currentList.length) {
-        shuffled = [];
-        index = -1;
+      currentList = getListForMode(mode);
+
+      if (currentList.length === 0) {
         currentPhrase = null;
-        hanziEl.textContent = "这个模式现在没有短语。";
-        pinyinEl.textContent = "Zhège móshì xiànzài méiyǒu duǎnyǔ.";
-        englishEl.textContent = "There are no phrases in this mode yet.";
-        tagEl.textContent = modeLabel(mode);
-        updateIndexLabel();
+        hanziEl.textContent = mode === "favorites"
+          ? "还没有收藏的短语。"
+          : "这个模式还没有短语。";
+        pinyinEl.textContent = mode === "favorites"
+          ? "Hái méiyǒu shōucáng de duǎnyǔ."
+          : "Zhège móshì hái méiyǒu duǎnyǔ.";
+        englishEl.textContent = mode === "favorites"
+          ? "You don't have any favorites yet."
+          : "No phrases in this mode yet.";
+        indexLabelEl.textContent = "Seen 0 / 0";
+        categoryTagEl.textContent = modeLabel(mode);
         updateFavoriteButton();
-        applyRevealState();
         return;
       }
 
       shuffled = shuffleArray(currentList);
-      index = 0;
-      currentPhrase = shuffled[index];
-      fillPhrase();
+      currentIndex = 0;
+      categoryTagEl.textContent = modeLabel(mode);
+      showCurrent();
     }
 
-    function fillPhrase() {
-      if (!currentList.length || index < 0) return;
-      currentPhrase = shuffled[index];
+    function modeLabel(mode) {
+      switch (mode) {
+        case "everyday": return "Everyday · Smart random";
+        case "retail": return "Retail · Smart random";
+        case "pharmacy": return "Pharmacy · Smart random";
+        case "hsk1": return "HSK 1 · Smart random";
+        case "hsk2": return "HSK 2 · Smart random";
+        case "favorites": return "Favorites · Smart random";
+        default: return "All · Mixed";
+      }
+    }
 
+    function showCurrent() {
+      if (!currentList.length) return;
+
+      currentPhrase = shuffled[currentIndex];
       hanziEl.textContent = currentPhrase.hanzi;
       pinyinEl.textContent = currentPhrase.pinyin;
       englishEl.textContent = currentPhrase.english;
 
-      tagEl.textContent = currentPhrase.label || modeLabel(currentMode);
-      updateIndexLabel();
+      categoryTagEl.textContent = currentPhrase.label
+        ? currentPhrase.label
+        : modeLabel(currentMode);
 
-      // in test mode, each new phrase starts hidden
+      indexLabelEl.textContent = `Seen ${currentIndex + 1} / ${currentList.length}`;
+
+      // apply reveal/test state
       if (testMode) {
         revealed = false;
-      } else {
-        revealed = true;
       }
-      applyRevealState();
+
+      pinyinEl.style.display = revealed ? "block" : "none";
+      englishEl.style.display = revealed ? "block" : "none";
+      toggleRevealBtn.textContent = revealed ? "👁 Hide meaning" : "👁 Show meaning";
+
       updateFavoriteButton();
     }
 
     function nextPhrase() {
       if (!currentList.length) return;
-      index++;
-      if (index >= currentList.length) {
-        // new cycle
+      currentIndex++;
+      if (currentIndex >= currentList.length) {
         shuffled = shuffleArray(currentList);
-        index = 0;
+        currentIndex = 0;
       }
-      fillPhrase();
+      showCurrent();
+    }
+
+    // ------------------------------
+    // TEST MODE
+    // ------------------------------
+    function toggleTestMode() {
+      testMode = !testMode;
+      testModeBtn.textContent = testMode ? "🧪 Test mode: On" : "🧪 Test mode: Off";
+      // When turning test mode on, hide meaning for current phrase
+      if (testMode) {
+        revealed = false;
+      }
+      showCurrent();
     }
 
     function toggleReveal() {
-      if (!currentPhrase) return;
-      if (!testMode) {
-        // in normal mode, just toggle hide/show
-        if (englishEl.style.display === "none") {
-          pinyinEl.style.display = "block";
-          englishEl.style.display = "block";
-          toggleBtn.textContent = "👁 Hide meaning";
-        } else {
-          pinyinEl.style.display = "none";
-          englishEl.style.display = "none";
-          toggleBtn.textContent = "👁 Show meaning";
-        }
-      } else {
-        // in test mode, revealed flag matters
-        revealed = !revealed;
-        applyRevealState();
-      }
+      revealed = !revealed;
+      pinyinEl.style.display = revealed ? "block" : "none";
+      englishEl.style.display = revealed ? "block" : "none";
+      toggleRevealBtn.textContent = revealed ? "👁 Hide meaning" : "👁 Show meaning";
     }
 
-    function toggleTestMode() {
-      testMode = !testMode;
-      if (testMode) {
-        testModeBtn.textContent = "🧪 Test mode: On";
-        testModePill.textContent = "Test mode";
-        testModePill.classList.add("pill-on");
-        revealed = false;
-      } else {
-        testModeBtn.textContent = "🧪 Test mode: Off";
-        testModePill.textContent = "Drill mode";
-        testModePill.classList.remove("pill-on");
-        revealed = true;
-      }
-      applyRevealState();
-    }
-
-    function playAudio() {
+    // ------------------------------
+    // AUDIO / TTS
+    // ------------------------------
+    function speakCurrent() {
       if (!currentPhrase) return;
       if (!("speechSynthesis" in window)) {
         alert("Speech not supported in this browser.");
         return;
       }
-      const utterance = new SpeechSynthesisUtterance(currentPhrase.hanzi);
-      utterance.lang = "zh-CN";
+      const utter = new SpeechSynthesisUtterance(currentPhrase.hanzi);
+      utter.lang = "zh-CN";
       window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utter);
     }
 
-    function toggleFavorite() {
-      if (!currentPhrase) return;
-      const key = makeKey(currentPhrase);
-      if (favoriteKeys.has(key)) {
-        favoriteKeys.delete(key);
-      } else {
-        favoriteKeys.add(key);
-      }
-      updateFavoriteButton();
-
-      // if currently in favorites mode and we removed it, refresh the pool
-      if (currentMode === "favorites") {
-        currentList = getPhrasesForMode("favorites");
-        if (!currentList.length) {
-          setMode("favorites");
-          return;
-        }
-        shuffled = shuffleArray(currentList);
-        index = 0;
-        fillPhrase();
-      }
-    }
-
-    // ---------- EVENT HOOKUP ----------
-    document.querySelectorAll(".mode-btn").forEach(btn => {
+    // ------------------------------
+    // EVENT LISTENERS
+    // ------------------------------
+    modeButtons.forEach(btn => {
       btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
 
-    document.getElementById("newPhraseBtn").addEventListener("click", nextPhrase);
-    document.getElementById("toggleRevealBtn").addEventListener("click", toggleReveal);
+    newPhraseBtn.addEventListener("click", nextPhrase);
+    toggleRevealBtn.addEventListener("click", toggleReveal);
     testModeBtn.addEventListener("click", toggleTestMode);
-    audioBtn.addEventListener("click", playAudio);
     favoriteBtn.addEventListener("click", toggleFavorite);
+    audioBtn.addEventListener("click", speakCurrent);
 
-    // ---------- INITIALIZE ----------
+    // ------------------------------
+    // INIT
+    // ------------------------------
     setMode("all");
   </script>
 </body>
