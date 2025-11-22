@@ -2,229 +2,462 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MSP – Mandarin Speaking Practice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MSP – HSK1–2 Mandarin Practice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f172a;
+      padding: 0;
+      background: #020617;
       color: #e5e7eb;
-      padding: 20px;
+      display: flex;
+      min-height: 100vh;
+      align-items: stretch;
+      justify-content: center;
     }
-    h1 {
-      margin: 0 0 10px;
+    .app {
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    p {
-      margin-top: 0;
-      margin-bottom: 12px;
+    .card {
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      border-radius: 18px;
+      padding: 18px 16px;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .title-block h1 {
+      font-size: 1.2rem;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+    .title-block p {
+      margin: 2px 0 0;
+      font-size: 0.78rem;
       color: #9ca3af;
-      font-size: 0.9rem;
+    }
+    .pill {
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      background: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      white-space: nowrap;
     }
     .mode-row {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 15px;
+      gap: 8px;
+      margin-top: 12px;
     }
     .mode-btn {
-      padding: 10px;
-      flex: 1 1 45%;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 10px;
+      flex: 1 1 30%;
+      min-width: 30%;
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.94);
       color: #e5e7eb;
-      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
+    .mode-btn span.icon { font-size: 0.95rem; }
     .mode-btn.active {
       border-color: #38bdf8;
-      background: #0c4a6e;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: radial-gradient(circle at top left,
+        rgba(56, 189, 248, 0.2),
+        rgba(15, 23, 42, 0.98));
     }
-    .phrase-box {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #334155;
-      margin-bottom: 15px;
+    .phrase-card {
+      margin-top: 8px;
+      padding: 14px 12px;
+      border-radius: 14px;
+      background: linear-gradient(
+        135deg,
+        rgba(15, 118, 110, 0.25),
+        rgba(30, 64, 175, 0.7)
+      );
+      border: 1px solid rgba(56, 189, 248, 0.45);
+    }
+    .phrase-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #cbd5f5;
+    }
+    .small-label {
+      font-size: 0.75rem;
+      color: #d1d5db;
+      opacity: 0.9;
+      text-align: right;
     }
     .hanzi {
-      font-size: 1.8rem;
-      margin-bottom: 5px;
+      font-size: 1.6rem;
+      margin: 4px 0 2px;
+      line-height: 1.3;
     }
     .pinyin {
-      color: #bae6fd;
-      margin-bottom: 8px;
       font-size: 0.95rem;
+      color: #d1fae5;
+      margin: 0 0 4px;
     }
     .english {
-      color: #e2e8f0;
-      margin-bottom: 10px;
       font-size: 0.9rem;
+      color: #e5e7eb;
+      opacity: 0.97;
+      margin: 0;
     }
     .controls-row {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 10px;
+      margin-top: 10px;
       flex-wrap: wrap;
     }
-    .btn {
-      flex: 1 1 auto;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #334155;
-      background: #0c4a6e;
+    .primary-btn,
+    .ghost-btn {
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      background: rgba(8, 47, 73, 0.9);
       color: #e0f2fe;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ghost-btn {
+      background: transparent;
+      border-color: rgba(148, 163, 184, 0.7);
+      color: #d1d5db;
+    }
+    .primary-btn:active,
+    .ghost-btn:active,
+    .mode-btn:active {
+      transform: translateY(1px);
+      opacity: 0.85;
+    }
+    .footer {
+      margin-top: auto;
+      font-size: 0.7rem;
       text-align: center;
-      font-size: 0.9rem;
-    }
-    .btn.secondary {
-      background: #1e293b;
-      color: #e5e7eb;
-    }
-    .hidden {
-      display: none;
-    }
-    .hint {
-      font-size: 0.75rem;
       color: #6b7280;
-      margin-top: 12px;
+    }
+    .hidden { display: none; }
+    @media (min-width: 600px) {
+      .app { padding-top: 32px; }
     }
   </style>
 </head>
-
 <body>
-  <h1>MSP · Mandarin</h1>
-  <p>Choose a mode, tap “New Phrase,” then tap “Hear Pronunciation” to listen.</p>
+  <div class="app">
+    <section class="card">
+      <div class="header">
+        <div class="title-block">
+          <h1>MSP · HSK1–2</h1>
+          <p>Smart random · No repeats until you see them all.</p>
+        </div>
+        <div class="pill">Drill mode</div>
+      </div>
 
-  <div class="mode-row">
-    <button class="mode-btn active" data-mode="all">🎲 Random</button>
-    <button class="mode-btn" data-mode="everyday">🌤 Everyday</button>
-    <button class="mode-btn" data-mode="retail">🛒 Retail</button>
-    <button class="mode-btn" data-mode="pharmacy">💊 Pharmacy</button>
-  </div>
+      <div class="mode-row">
+        <button class="mode-btn active" data-mode="all">
+          <span class="icon">🎲</span><span>All (HSK1–2)</span>
+        </button>
+        <button class="mode-btn" data-mode="hsk1">
+          <span class="icon">①</span><span>HSK 1</span>
+        </button>
+        <button class="mode-btn" data-mode="hsk2">
+          <span class="icon">②</span><span>HSK 2</span>
+        </button>
+      </div>
 
-  <div class="phrase-box">
-    <div class="hanzi" id="hanzi">点击“新短语”</div>
-    <div class="pinyin" id="pinyin">Diǎn jī "xīn duǎnyǔ"</div>
-    <div class="english" id="english">Tap "New Phrase" to begin.</div>
-  </div>
+      <div class="phrase-card" id="phraseCard">
+        <div class="phrase-top-row">
+          <span class="tag" id="categoryTag">HSK · Warm-up</span>
+          <span class="small-label" id="indexLabel">Seen 0 / 0</span>
+        </div>
+        <div>
+          <div class="hanzi" id="hanzi">点击“新短语”</div>
+          <div class="pinyin" id="pinyin">Diǎn​jī “xīn duǎnyǔ”</div>
+          <p class="english" id="english">Tap “New phrase” to start.</p>
+        </div>
+        <div class="controls-row">
+          <button class="primary-btn" id="newPhraseBtn">
+            <span>🔁 New phrase</span>
+          </button>
+          <button class="ghost-btn" id="toggleRevealBtn">
+            <span>👁 Hide meaning</span>
+          </button>
+        </div>
+      </div>
+    </section>
 
-  <div class="controls-row">
-    <button class="btn" id="newPhraseBtn">🔁 New Phrase</button>
-    <button class="btn secondary" id="toggleBtn">👁 Hide Meaning</button>
-    <button class="btn secondary" id="speakBtn">🔊 Hear Pronunciation</button>
-  </div>
-
-  <div class="hint">
-    If the voice sounds wrong, check your device’s language/voice settings. iPhone usually has at least one Mandarin (zh-CN) voice available.
+    <div class="footer">
+      MSP HSK v1.0 · Random with full-cycle coverage · Add to Home Screen to use like an app.
+    </div>
   </div>
 
   <script>
-    // Phrase data
+    // HSK1 + HSK2 core sentence bank (~80 phrases, expandable)
     const phrases = [
-      // Everyday
-      {cat:"everyday", hanzi:"你好", pinyin:"Nǐ hǎo", eng:"Hello."},
-      {cat:"everyday", hanzi:"谢谢", pinyin:"Xièxie", eng:"Thank you."},
-      {cat:"everyday", hanzi:"不好意思", pinyin:"Bù hǎoyìsi", eng:"Excuse me / Sorry."},
-      {cat:"everyday", hanzi:"我听不懂", pinyin:"Wǒ tīng bù dǒng", eng:"I don't understand."},
-      {cat:"everyday", hanzi:"可以说慢一点吗？", pinyin:"Kěyǐ shuō màn yīdiǎn ma?", eng:"Can you speak slower?"},
+      // ---------- HSK 1 ----------
+      { category: "hsk1", label: "HSK 1 · Greeting", hanzi: "你好。", pinyin: "Nǐ hǎo.", english: "Hello." },
+      { category: "hsk1", label: "HSK 1 · Greeting", hanzi: "你好吗？", pinyin: "Nǐ hǎo ma?", english: "How are you?" },
+      { category: "hsk1", label: "HSK 1 · Greeting", hanzi: "我很好，你呢？", pinyin: "Wǒ hěn hǎo, nǐ ne?", english: "I’m very good, and you?" },
+      { category: "hsk1", label: "HSK 1 · Basic", hanzi: "再见。", pinyin: "Zàijiàn.", english: "Goodbye." },
+      { category: "hsk1", label: "HSK 1 · Polite", hanzi: "谢谢。", pinyin: "Xièxie.", english: "Thank you." },
+      { category: "hsk1", label: "HSK 1 · Polite", hanzi: "不客气。", pinyin: "Bú kèqi.", english: "You’re welcome." },
+      { category: "hsk1", label: "HSK 1 · Polite", hanzi: "对不起。", pinyin: "Duìbuqǐ.", english: "Sorry." },
+      { category: "hsk1", label: "HSK 1 · Polite", hanzi: "没关系。", pinyin: "Méi guānxi.", english: "It’s okay / No problem." },
+      { category: "hsk1", label: "HSK 1 · Polite", hanzi: "请问，厕所在哪儿？", pinyin: "Qǐngwèn, cèsuǒ zài nǎr?", english: "Excuse me, where is the bathroom?" },
 
-      // Retail
-      {cat:"retail", hanzi:"需要帮忙吗？", pinyin:"Xūyào bāngmáng ma?", eng:"Do you need any help?"},
-      {cat:"retail", hanzi:"我可以帮你找。", pinyin:"Wǒ kěyǐ bāng nǐ zhǎo.", eng:"I can help you find it."},
-      {cat:"retail", hanzi:"这个在那边的货架上。", pinyin:"Zhège zài nàbiān de huòjià shàng.", eng:"It's on the shelf over there."},
-      {cat:"retail", hanzi:"今天这些在打折。", pinyin:"Jīntiān zhèxiē zài dǎzhé.", eng:"These are on sale today."},
-      {cat:"retail", hanzi:"你有会员卡吗？", pinyin:"Nǐ yǒu huìyuánkǎ ma?", eng:"Do you have a rewards card?"},
+      { category: "hsk1", label: "HSK 1 · Name", hanzi: "你叫什么名字？", pinyin: "Nǐ jiào shénme míngzi?", english: "What is your name?" },
+      { category: "hsk1", label: "HSK 1 · Name", hanzi: "我叫 ……。", pinyin: "Wǒ jiào …….", english: "My name is …" },
+      { category: "hsk1", label: "HSK 1 · Country", hanzi: "你是哪国人？", pinyin: "Nǐ shì nǎ guó rén?", english: "Which country are you from?" },
+      { category: "hsk1", label: "HSK 1 · Country", hanzi: "我是美国人。", pinyin: "Wǒ shì Měiguó rén.", english: "I’m American." },
+      { category: "hsk1", label: "HSK 1 · Living", hanzi: "你住在哪儿？", pinyin: "Nǐ zhù zài nǎr?", english: "Where do you live?" },
+      { category: "hsk1", label: "HSK 1 · Living", hanzi: "我住在 ……。", pinyin: "Wǒ zhù zài …….", english: "I live in …" },
 
-      // Pharmacy
-      {cat:"pharmacy", hanzi:"你在拿处方药还是买别的？", pinyin:"Nǐ zài ná chǔfāng yào háishi mǎi bié de?", eng:"Picking up a prescription or buying something else?"},
-      {cat:"pharmacy", hanzi:"你的生日是几月几号？", pinyin:"Nǐ de shēngrì shì jǐ yuè jǐ hào?", eng:"What's your date of birth?"},
-      {cat:"pharmacy", hanzi:"你对什么药过敏吗？", pinyin:"Nǐ duì shénme yào guòmǐn ma?", eng:"Are you allergic to any medicine?"},
-      {cat:"pharmacy", hanzi:"一天吃两次，每次一片。", pinyin:"Yìtiān chī liǎng cì, měi cì yī piàn.", eng:"Take twice daily, one tablet each time."},
-      {cat:"pharmacy", hanzi:"需要我帮你叫翻译吗？", pinyin:"Xūyào wǒ bāng nǐ jiào fānyì ma?", eng:"Do you need an interpreter?"}
+      { category: "hsk1", label: "HSK 1 · Language", hanzi: "你会说汉语吗？", pinyin: "Nǐ huì shuō Hànyǔ ma?", english: "Can you speak Chinese?" },
+      { category: "hsk1", label: "HSK 1 · Language", hanzi: "我会说一点儿。", pinyin: "Wǒ huì shuō yìdiǎnr.", english: "I can speak a little." },
+      { category: "hsk1", label: "HSK 1 · Listening", hanzi: "我听不懂。", pinyin: "Wǒ tīng bù dǒng.", english: "I don’t understand (what I hear)." },
+      { category: "hsk1", label: "HSK 1 · Listening", hanzi: "可以说慢一点吗？", pinyin: "Kěyǐ shuō màn yìdiǎn ma?", english: "Could you speak a bit more slowly?" },
+      { category: "hsk1", label: "HSK 1 · Meaning", hanzi: "这是什么意思？", pinyin: "Zhè shì shénme yìsi?", english: "What does this mean?" },
+
+      { category: "hsk1", label: "HSK 1 · Time", hanzi: "现在几点？", pinyin: "Xiànzài jǐ diǎn?", english: "What time is it now?" },
+      { category: "hsk1", label: "HSK 1 · Date", hanzi: "今天几号？", pinyin: "Jīntiān jǐ hào?", english: "What is today’s date?" },
+      { category: "hsk1", label: "HSK 1 · Date", hanzi: "今天是几月几号？", pinyin: "Jīntiān shì jǐ yuè jǐ hào?", english: "What month and day is it today?" },
+
+      { category: "hsk1", label: "HSK 1 · Busy", hanzi: "你今天忙吗？", pinyin: "Nǐ jīntiān máng ma?", english: "Are you busy today?" },
+      { category: "hsk1", label: "HSK 1 · Busy", hanzi: "我很忙。", pinyin: "Wǒ hěn máng.", english: "I’m very busy." },
+      { category: "hsk1", label: "HSK 1 · Busy", hanzi: "我不太忙。", pinyin: "Wǒ bú tài máng.", english: "I’m not very busy." },
+
+      { category: "hsk1", label: "HSK 1 · Job", hanzi: "你做什么工作？", pinyin: "Nǐ zuò shénme gōngzuò?", english: "What do you do for work?" },
+      { category: "hsk1", label: "HSK 1 · Job", hanzi: "我在药店工作。", pinyin: "Wǒ zài yàodiàn gōngzuò.", english: "I work at a pharmacy / drugstore." },
+      { category: "hsk1", label: "HSK 1 · Job", hanzi: "你喜欢你的工作吗？", pinyin: "Nǐ xǐhuan nǐ de gōngzuò ma?", english: "Do you like your job?" },
+      { category: "hsk1", label: "HSK 1 · Job", hanzi: "我很喜欢。", pinyin: "Wǒ hěn xǐhuan.", english: "I like it a lot." },
+
+      { category: "hsk1", label: "HSK 1 · Money", hanzi: "这个多少钱？", pinyin: "Zhège duōshao qián?", english: "How much is this?" },
+      { category: "hsk1", label: "HSK 1 · Money", hanzi: "太贵了。", pinyin: "Tài guì le.", english: "It’s too expensive." },
+      { category: "hsk1", label: "HSK 1 · Money", hanzi: "便宜一点，可以吗？", pinyin: "Piányi yìdiǎn, kěyǐ ma?", english: "Can it be a little cheaper?" },
+      { category: "hsk1", label: "HSK 1 · Money", hanzi: "我想要这个。", pinyin: "Wǒ xiǎng yào zhège.", english: "I want this one." },
+
+      { category: "hsk1", label: "HSK 1 · Work time", hanzi: "你每天几点上班？", pinyin: "Nǐ měitiān jǐ diǎn shàngbān?", english: "What time do you start work every day?" },
+      { category: "hsk1", label: "HSK 1 · Work time", hanzi: "你几点下班？", pinyin: "Nǐ jǐ diǎn xiàbān?", english: "What time do you get off work?" },
+      { category: "hsk1", label: "HSK 1 · Work time", hanzi: "我八点上班。", pinyin: "Wǒ bā diǎn shàngbān.", english: "I start work at eight." },
+      { category: "hsk1", label: "HSK 1 · Work time", hanzi: "我六点下班。", pinyin: "Wǒ liù diǎn xiàbān.", english: "I get off work at six." },
+
+      { category: "hsk1", label: "HSK 1 · Food", hanzi: "你吃饭了吗？", pinyin: "Nǐ chīfàn le ma?", english: "Have you eaten?" },
+      { category: "hsk1", label: "HSK 1 · Food", hanzi: "我还没吃。", pinyin: "Wǒ hái méi chī.", english: "I haven’t eaten yet." },
+
+      // ---------- HSK 2 ----------
+      { category: "hsk2", label: "HSK 2 · Transport", hanzi: "你怎么来这儿？", pinyin: "Nǐ zěnme lái zhèr?", english: "How did you come here?" },
+      { category: "hsk2", label: "HSK 2 · Transport", hanzi: "我坐公交车来。", pinyin: "Wǒ zuò gōngjiāo chē lái.", english: "I came by bus." },
+      { category: "hsk2", label: "HSK 2 · Transport", hanzi: "我开车来。", pinyin: "Wǒ kāichē lái.", english: "I drove here." },
+
+      { category: "hsk2", label: "HSK 2 · Weekend", hanzi: "你周末喜欢做什么？", pinyin: "Nǐ zhōumò xǐhuan zuò shénme?", english: "What do you like to do on weekends?" },
+      { category: "hsk2", label: "HSK 2 · Weekend", hanzi: "我喜欢睡觉和看书。", pinyin: "Wǒ xǐhuan shuìjiào hé kànshū.", english: "I like to sleep and read." },
+
+      { category: "hsk2", label: "HSK 2 · Study", hanzi: "你在学什么？", pinyin: "Nǐ zài xué shénme?", english: "What are you studying?" },
+      { category: "hsk2", label: "HSK 2 · Study", hanzi: "我在学中文。", pinyin: "Wǒ zài xué Zhōngwén.", english: "I’m studying Chinese." },
+      { category: "hsk2", label: "HSK 2 · Difficulty", hanzi: "学中文难不难？", pinyin: "Xué Zhōngwén nán bu nán?", english: "Is learning Chinese hard?" },
+      { category: "hsk2", label: "HSK 2 · Difficulty", hanzi: "有一点儿难，但是很有意思。", pinyin: "Yǒu yìdiǎnr nán, dànshì hěn yǒuyìsi.", english: "It’s a bit hard, but very interesting." },
+
+      { category: "hsk2", label: "HSK 2 · Duration", hanzi: "你每天学习多长时间？", pinyin: "Nǐ měitiān xuéxí duō cháng shíjiān?", english: "How long do you study every day?" },
+      { category: "hsk2", label: "HSK 2 · Duration", hanzi: "我每天学习一个小时。", pinyin: "Wǒ měitiān xuéxí yí ge xiǎoshí.", english: "I study for one hour every day." },
+
+      { category: "hsk2", label: "HSK 2 · Other languages", hanzi: "你以前学过别的语言吗？", pinyin: "Nǐ yǐqián xué guo bié de yǔyán ma?", english: "Have you studied other languages before?" },
+      { category: "hsk2", label: "HSK 2 · Other languages", hanzi: "我学过西班牙语。", pinyin: "Wǒ xué guo Xībānyáyǔ.", english: "I’ve studied Spanish." },
+
+      { category: "hsk2", label: "HSK 2 · Because", hanzi: "因为工作，所以我要学中文。", pinyin: "Yīnwèi gōngzuò, suǒyǐ wǒ yào xué Zhōngwén.", english: "Because of work, I want to learn Chinese." },
+      { category: "hsk2", label: "HSK 2 · Although", hanzi: "虽然很难，但是我不会放弃。", pinyin: "Suīrán hěn nán, dànshì wǒ bú huì fàngqì.", english: "Although it’s hard, I won’t give up." },
+
+      { category: "hsk2", label: "HSK 2 · Practice", hanzi: "你常常跟谁练习说汉语？", pinyin: "Nǐ chángcháng gēn shéi liànxí shuō Hànyǔ?", english: "Who do you often practice speaking Chinese with?" },
+      { category: "hsk2", label: "HSK 2 · Practice", hanzi: "我跟同事练习。", pinyin: "Wǒ gēn tóngshì liànxí.", english: "I practice with my coworkers." },
+
+      { category: "hsk2", label: "HSK 2 · Movies", hanzi: "你喜欢看中文电影吗？", pinyin: "Nǐ xǐhuan kàn Zhōngwén diànyǐng ma?", english: "Do you like watching Chinese movies?" },
+      { category: "hsk2", label: "HSK 2 · Listening", hanzi: "我觉得听力有点儿难。", pinyin: "Wǒ juéde tīnglì yǒudiǎnr nán.", english: "I think listening is a bit hard." },
+
+      { category: "hsk2", label: "HSK 2 · Repeat", hanzi: "再说一遍，可以吗？", pinyin: "Zài shuō yí biàn, kěyǐ ma?", english: "Could you say it again?" },
+      { category: "hsk2", label: "HSK 2 · Check sentence", hanzi: "你可以帮我看一下这个句子吗？", pinyin: "Nǐ kěyǐ bāng wǒ kàn yíxià zhège jùzi ma?", english: "Can you help me look at this sentence?" },
+
+      { category: "hsk2", label: "HSK 2 · Exam", hanzi: "我想参加HSK考试。", pinyin: "Wǒ xiǎng cānjiā HSK kǎoshì.", english: "I want to take the HSK exam." },
+      { category: "hsk2", label: "HSK 2 · Exam", hanzi: "你准备考HSK几级？", pinyin: "Nǐ zhǔnbèi kǎo HSK jǐ jí?", english: "Which HSK level are you preparing for?" },
+      { category: "hsk2", label: "HSK 2 · Exam", hanzi: "我准备考HSK二级。", pinyin: "Wǒ zhǔnbèi kǎo HSK èr jí.", english: "I’m preparing for HSK Level 2." },
+
+      { category: "hsk2", label: "HSK 2 · Travel", hanzi: "我打算明年去中国旅行。", pinyin: "Wǒ dǎsuàn míngnián qù Zhōngguó lǚxíng.", english: "I plan to travel to China next year." },
+      { category: "hsk2", label: "HSK 2 · Travel", hanzi: "你去过中国吗？", pinyin: "Nǐ qù guo Zhōngguó ma?", english: "Have you been to China?" },
+      { category: "hsk2", label: "HSK 2 · Travel", hanzi: "我还没去过。", pinyin: "Wǒ hái méi qù guo.", english: "I haven’t been there yet." },
+
+      { category: "hsk2", label: "HSK 2 · Reading", hanzi: "有时间的时候，我喜欢看中文小说。", pinyin: "Yǒu shíjiān de shíhou, wǒ xǐhuan kàn Zhōngwén xiǎoshuō.", english: "When I have time, I like reading Chinese novels." },
+      { category: "hsk2", label: "HSK 2 · Ability", hanzi: "她说汉语说得很好。", pinyin: "Tā shuō Hànyǔ shuō de hěn hǎo.", english: "She speaks Chinese very well." },
+      { category: "hsk2", label: "HSK 2 · Ability", hanzi: "你写汉字写得怎么样？", pinyin: "Nǐ xiě Hànzì xiě de zěnmeyàng?", english: "How is your Chinese character writing?" },
+      { category: "hsk2", label: "HSK 2 · Ability", hanzi: "我写得不太好。", pinyin: "Wǒ xiě de bú tài hǎo.", english: "I don’t write very well." },
+      { category: "hsk2", label: "HSK 2 · Progress", hanzi: "他的中文越来越好。", pinyin: "Tā de Zhōngwén yuè lái yuè hǎo.", english: "His Chinese is getting better and better." },
+      { category: "hsk2", label: "HSK 2 · Progress", hanzi: "多听多说，汉语会更好。", pinyin: "Duō tīng duō shuō, Hànyǔ huì gèng hǎo.", english: "If you listen and speak more, your Chinese will get better." },
+
+      { category: "hsk2", label: "HSK 2 · Health", hanzi: "你身体怎么样？", pinyin: "Nǐ shēntǐ zěnmeyàng?", english: "How is your health?" },
+      { category: "hsk2", label: "HSK 2 · Health", hanzi: "我有点儿累。", pinyin: "Wǒ yǒudiǎnr lèi.", english: "I’m a bit tired." },
+      { category: "hsk2", label: "HSK 2 · Workload", hanzi: "最近工作太多了。", pinyin: "Zuìjìn gōngzuò tài duō le.", english: "Recently I have too much work." },
+      { category: "hsk2", label: "HSK 2 · Suggestion", hanzi: "你应该多休息。", pinyin: "Nǐ yīnggāi duō xiūxi.", english: "You should rest more." },
+
+      { category: "hsk2", label: "HSK 2 · Weather", hanzi: "外面天气怎么样？", pinyin: "Wàimiàn tiānqì zěnmeyàng?", english: "How is the weather outside?" },
+      { category: "hsk2", label: "HSK 2 · Weather", hanzi: "今天有点儿冷。", pinyin: "Jīntiān yǒudiǎnr lěng.", english: "It’s a bit cold today." }
     ];
 
-    let mode = "all";
-    let hidden = false;
-    let currentPhrase = null;
+    let currentMode = "all";
+    let currentPool = phrases.slice();
+    let remaining = [];
+    let seenThisRound = 0;
+    let reveal = true;
 
-    const hanziEl   = document.getElementById("hanzi");
-    const pinyinEl  = document.getElementById("pinyin");
+    const modeButtons = document.querySelectorAll(".mode-btn");
+    const hanziEl = document.getElementById("hanzi");
+    const pinyinEl = document.getElementById("pinyin");
     const englishEl = document.getElementById("english");
-    const newBtn    = document.getElementById("newPhraseBtn");
-    const toggleBtn = document.getElementById("toggleBtn");
-    const speakBtn  = document.getElementById("speakBtn");
+    const categoryTagEl = document.getElementById("categoryTag");
+    const indexLabelEl = document.getElementById("indexLabel");
+    const newPhraseBtn = document.getElementById("newPhraseBtn");
+    const toggleRevealBtn = document.getElementById("toggleRevealBtn");
 
-    // Mode switching
-    document.querySelectorAll(".mode-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        mode = btn.dataset.mode;
-      });
-    });
-
-    // New phrase
-    newBtn.addEventListener("click", () => {
-      let pool = mode === "all" ? phrases : phrases.filter(p => p.cat === mode);
-      if (!pool.length) return;
-      const p = pool[Math.floor(Math.random() * pool.length)];
-      currentPhrase = p;
-      hanziEl.textContent   = p.hanzi;
-      pinyinEl.textContent  = p.pinyin;
-      englishEl.textContent = p.eng;
-      if (hidden) englishEl.classList.add("hidden");
-    });
-
-    // Hide/show meaning
-    toggleBtn.addEventListener("click", () => {
-      hidden = !hidden;
-      if (hidden) {
-        englishEl.classList.add("hidden");
-        toggleBtn.textContent = "👁 Show Meaning";
-      } else {
-        englishEl.classList.remove("hidden");
-        toggleBtn.textContent = "👁 Hide Meaning";
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-    });
-
-    // ---------- Speech synthesis (robotic pronunciation) ----------
-    let voices = [];
-    function loadVoices() {
-      voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
-    }
-    if (typeof window !== "undefined" && window.speechSynthesis) {
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
+      return arr;
     }
 
-    function getChineseVoice() {
-      if (!voices || !voices.length) return null;
-      // Prefer zh-CN voices if available
-      let zhVoices = voices.filter(v =>
-        v.lang.toLowerCase().startsWith("zh") ||
-        v.name.toLowerCase().includes("chinese")
-      );
-      if (zhVoices.length) return zhVoices[0];
-      // Fallback: just return the first voice
-      return voices[0];
+    function resetPool() {
+      if (currentMode === "all") {
+        currentPool = phrases.slice();
+      } else {
+        currentPool = phrases.filter(p => p.category === currentMode);
+      }
+      remaining = shuffle(currentPool);
+      seenThisRound = 0;
+      updateIndexLabel();
     }
 
-    function speakCurrentPhrase() {
-      if (!window.speechSynthesis) {
-        alert("Speech not supported in this browser.");
+    function updateIndexLabel() {
+      const total = currentPool.length;
+      indexLabelEl.textContent = `Seen ${seenThisRound} / ${total}`;
+    }
+
+    function updateMode(mode) {
+      currentMode = mode;
+      modeButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+
+      let tagText = "HSK · Mixed";
+      if (mode === "hsk1") tagText = "HSK 1 · Core";
+      if (mode === "hsk2") tagText = "HSK 2 · Core";
+
+      categoryTagEl.textContent = tagText;
+      hanziEl.textContent = "点击“新短语”";
+      pinyinEl.textContent = "Diǎn​jī “xīn duǎnyǔ”";
+      englishEl.textContent = "Tap “New phrase” to start.";
+
+      resetPool();
+
+      if (!reveal) {
+        pinyinEl.classList.add("hidden");
+        englishEl.classList.add("hidden");
+      } else {
+        pinyinEl.classList.remove("hidden");
+        englishEl.classList.remove("hidden");
+      }
+    }
+
+    function showNewPhrase() {
+      if (!currentPool.length) {
+        hanziEl.textContent = "这里还没有短语。";
+        pinyinEl.textContent = "Zhèlǐ hái méiyǒu duǎnyǔ.";
+        englishEl.textContent = "No phrases in this mode yet.";
+        indexLabelEl.textContent = "Seen 0 / 0";
         return;
       }
-      const utter = new SpeechSynthesisUtterance();
-      const textToSpeak = currentPhrase ? currentPhrase.hanzi : hanziEl.textContent;
-      utter.text = textToSpeak;
-      const v = getChineseVoice();
-      if (v) utter.voice = v;
-      utter.lang = v ? v.lang : "zh-CN";
-      window.speechSynthesis.cancel(); // stop any previous speech
-      window.speechSynthesis.speak(utter);
+
+      if (!remaining.length) {
+        remaining = shuffle(currentPool);
+        seenThisRound = 0;
+      }
+
+      const phrase = remaining.pop();
+      seenThisRound++;
+      updateIndexLabel();
+
+      hanziEl.textContent = phrase.hanzi;
+      pinyinEl.textContent = phrase.pinyin;
+      englishEl.textContent = phrase.english;
+
+      const levelLabel = phrase.label || "HSK phrase";
+      if (currentMode === "all") {
+        categoryTagEl.textContent = levelLabel + " · Mixed";
+      } else {
+        categoryTagEl.textContent = levelLabel;
+      }
+
+      if (!reveal) {
+        pinyinEl.classList.add("hidden");
+        englishEl.classList.add("hidden");
+      }
     }
 
-    speakBtn.addEventListener("click", speakCurrentPhrase);
+    function toggleReveal() {
+      reveal = !reveal;
+      if (reveal) {
+        pinyinEl.classList.remove("hidden");
+        englishEl.classList.remove("hidden");
+        toggleRevealBtn.innerHTML = "<span>👁 Hide meaning</span>";
+      } else {
+        pinyinEl.classList.add("hidden");
+        englishEl.classList.add("hidden");
+        toggleRevealBtn.innerHTML = "<span>👁 Show meaning</span>";
+      }
+    }
+
+    modeButtons.forEach(btn => {
+      btn.addEventListener("click", () => updateMode(btn.dataset.mode));
+    });
+    newPhraseBtn.addEventListener("click", showNewPhrase);
+    toggleRevealBtn.addEventListener("click", toggleReveal);
+
+    // Initial setup
+    resetPool();
   </script>
 </body>
 </html>
